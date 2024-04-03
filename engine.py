@@ -2,6 +2,12 @@ import json
 from rank_bm25 import BM25Okapi
 from sentence_transformers.cross_encoder import CrossEncoder
 from openai import OpenAI
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+nltk.download("stopwords")
+nltk.download("punkt")
 
 
 class Engine:
@@ -20,13 +26,21 @@ class Engine:
 
         self.label_mapping = ["contradiction", "entailment", "neutral"]
 
+    def _remove_stopwords(self, claim):
+        words = word_tokenize(claim)
+        stop_words = set(stopwords.words("english"))
+        filtered_words = [word for word in words if word.lower() not in stop_words]
+        filtered_text = "".join(filtered_words)
+        return filtered_text
+
     def _top_100(self, claim):
         tokenized_claim = claim.split(" ")
         top = self.bm25.get_top_n(tokenized_claim, self.evidence_database, n=100)
         return top
 
     def _top_evidence(self, claim):
-        evidence = self._top_100(claim)
+        filtered_claim = self._remove_stopwords(claim)
+        evidence = self._top_100(filtered_claim)
 
         ranks = self.rerank_xe.rank(claim, evidence)
         top = [evidence[i] for i in [r["corpus_id"] for r in list(ranks)[:1]]]
