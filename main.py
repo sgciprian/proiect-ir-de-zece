@@ -50,7 +50,7 @@ for instance in data:
 
     if PRINT_INSTANCES:
         print(f"{tests_count} / {tests_max}")
-        print(f"Claim: {instance["claim"]}")
+        print(f"Claim: {instance['claim']}")
         print(f"Computed: {computed_verdict}")
         print(f"Real: {real_verdict}")
         print(f"Evidence: {evidence}")
