@@ -2,15 +2,15 @@ import json
 from engine import Engine
 
 
-LIMIT_INSTANCES = 25000
-PRINT_INSTANCES = False
+LIMIT_INSTANCES = 20
+PRINT_INSTANCES = True
 
 DATASET_PATH = "data/test_claims_quantemp.json"
 EVIDENCE_PATH = "data/corpus_evidence_unified.json"
 
 RERANKING_MODEL = "mixedbread-ai/mxbai-rerank-large-v1"
 VERACITY_MODEL = "cross-encoder/nli-deberta-v3-base" # "LLM"
-VERACITY_TEST_TYPE = "Top1" # "Top1", "Top5"
+VERACITY_TEST_TYPE = "Top5" # "Top1", "Top5"
 
 VERDICT_MAP = {
     "True": "entailment",

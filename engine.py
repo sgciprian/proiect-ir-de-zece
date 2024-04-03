@@ -25,6 +25,7 @@ class Engine:
             self.client = OpenAI()
 
         self.veracity_test_size = int(veracity_test.split("Top")[1])
+        print(self.veracity_test_size)
 
         self.label_mapping = ["contradiction", "entailment", "neutral"]
 
@@ -32,7 +33,7 @@ class Engine:
         words = word_tokenize(claim)
         stop_words = set(stopwords.words("english"))
         filtered_words = [word for word in words if word.lower() not in stop_words]
-        filtered_text = "".join(filtered_words)
+        filtered_text = " ".join(filtered_words)
         return filtered_text
 
     def _top_100(self, claim):
