@@ -11,7 +11,7 @@ nltk.download("punkt")
 
 
 class Engine:
-    def __init__(self, evidence_path, reranking_model, veracity_model):
+    def __init__(self, evidence_path, reranking_model, veracity_model, veracity_test):
         with open(evidence_path, 'r') as j:
             self.evidence_database = list(json.load(j).values())
         self.tokenized_evidence = [e.split(" ") for e in self.evidence_database]
@@ -23,6 +23,8 @@ class Engine:
             self.nli_xe = CrossEncoder(veracity_model)
         else:
             self.client = OpenAI()
+
+        self.veracity_test_size = int(veracity_test.split("Top")[1])
 
         self.label_mapping = ["contradiction", "entailment", "neutral"]
 
@@ -38,17 +40,16 @@ class Engine:
         top = self.bm25.get_top_n(tokenized_claim, self.evidence_database, n=100)
         return top
 
-    def _top_evidence(self, claim):
+    def _top_evidence(self, claim, size=1):
         filtered_claim = self._remove_stopwords(claim)
         evidence = self._top_100(filtered_claim)
 
         ranks = self.rerank_xe.rank(claim, evidence)
-        top = [evidence[i] for i in [r["corpus_id"] for r in list(ranks)[:1]]]
+        top = ["\n".join([evidence[i] for i in [r["corpus_id"] for r in list(ranks)[:size]]])]
         return top
 
     def verify(self, claim):
-        # TODO: putem lua mai multe claimuri in considerare cumva
-        evidence = self._top_evidence(claim)
+        evidence = self._top_evidence(claim, size=self.veracity_test_size)
 
         if self.veracity_model != "LLM":
             scores = self.nli_xe.predict([[claim, ev] for ev in evidence])

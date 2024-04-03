@@ -9,8 +9,8 @@ DATASET_PATH = "data/test_claims_quantemp.json"
 EVIDENCE_PATH = "data/corpus_evidence_unified.json"
 
 RERANKING_MODEL = "mixedbread-ai/mxbai-rerank-large-v1"
-#VERACITY_MODEL = "LLM"
-VERACITY_MODEL = "cross-encoder/nli-deberta-v3-base"
+VERACITY_MODEL = "cross-encoder/nli-deberta-v3-base" # "LLM"
+VERACITY_TEST_TYPE = "Top1" # "Top1", "Top5"
 
 VERDICT_MAP = {
     "True": "entailment",
@@ -19,7 +19,7 @@ VERDICT_MAP = {
 }
 
 
-e = Engine(EVIDENCE_PATH, RERANKING_MODEL, VERACITY_MODEL)
+e = Engine(EVIDENCE_PATH, RERANKING_MODEL, VERACITY_MODEL, VERACITY_TEST_TYPE)
 
 with open(DATASET_PATH, 'r') as j:
     data = json.load(j)
