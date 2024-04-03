@@ -1,5 +1,4 @@
 openai
 rank-bm25
 sentence-transformers
-sentencepiece
-protobuf
+nltk

@@ -2,13 +2,13 @@ import json
 from engine import Engine
 
 
-LIMIT_INSTANCES = 5
-PRINT_INSTANCES = True
+LIMIT_INSTANCES = 25000
+PRINT_INSTANCES = False
 
 DATASET_PATH = "data/test_claims_quantemp.json"
 EVIDENCE_PATH = "data/corpus_evidence_unified.json"
 
-RERANKING_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+RERANKING_MODEL = "mixedbread-ai/mxbai-rerank-large-v1"
 #VERACITY_MODEL = "LLM"
 VERACITY_MODEL = "cross-encoder/nli-deberta-v3-base"
 
