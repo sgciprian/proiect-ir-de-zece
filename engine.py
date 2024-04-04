@@ -25,7 +25,6 @@ class Engine:
             self.client = OpenAI()
 
         self.veracity_test_size = int(veracity_test.split("Top")[1])
-        print(self.veracity_test_size)
 
         self.label_mapping = ["contradiction", "entailment", "neutral"]
 
@@ -37,7 +36,7 @@ class Engine:
         return filtered_text
 
     def _top_100(self, claim):
-        tokenized_claim = claim.split(" ")
+        tokenized_claim = claim.lower().split(" ")
         top = self.bm25.get_top_n(tokenized_claim, self.evidence_database, n=100)
         return top
 
