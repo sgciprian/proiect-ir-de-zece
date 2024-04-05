@@ -9,7 +9,7 @@ DATASET_PATH = "data/test_claims_quantemp.json"
 EVIDENCE_PATH = "data/corpus_evidence_unified.json"
 
 RERANKING_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-VERACITY_MODEL = "cross-encoder/nli-deberta-v3-base" # "LLM"
+VERACITY_MODEL = "cross-encoder/nli-deberta-v3-base"
 VERACITY_TEST_TYPE = "Top1" # "Top1", "Top5"
 
 VERDICT_MAP = {
